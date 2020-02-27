@@ -5,6 +5,7 @@ body {
     padding: 0;
     background-color: black;
     overflow:hidden;
+    /* font-size: 32px; */
 }
 
 .stopwatch-wrapper {
@@ -27,14 +28,14 @@ body {
     /* min-height: 5em; */
     color: #ffffff;
     font-family: 'Space Mono';
-    opacity: .85;
+    /* opacity: .85; */
     flex: 0 1 auto;
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-end;
     overflow: hidden;
-    font-size: 4em;
-    margin-top: 3em;
+    font-size: 6em;
+    margin-top: 2em;
     /* text-align: center; */
 }
 
@@ -50,9 +51,12 @@ body {
 }
 
 #stopwatch-btns button {
+    width: 3em;
+    height: 3em;
     flex: 0 0 auto;
     margin: 5px;
-    width: 100px;
+    font-size: 2em;
+
 }
 
 #lap-history, #lap-history-header {
