@@ -1,0 +1,72 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    overflow:hidden;
+}
+
+.stopwatch-wrapper {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    /* align-items: center; */
+    height: 100%;
+
+}
+
+#timer {
+    flex: 0 1 auto;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+#stopwatch {
+    /* min-height: 5em; */
+    color: #ffffff;
+    font-family: 'Space Mono';
+    opacity: .85;
+    flex: 0 1 auto;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-end;
+    overflow: hidden;
+    font-size: 4em;
+    margin-top: 3em;
+    /* text-align: center; */
+}
+
+
+
+#stopwatch-btns {
+    flex: 0 1 auto;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+}
+
+#stopwatch-btns button {
+    flex: 0 0 auto;
+    margin: 5px;
+    width: 100px;
+}
+
+#lap-history, #lap-history-header {
+    color: #ffffff;
+    /* font-family: 'Space Mono'; */
+    flex: 0 1 auto;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+#lap-history {
+    min-height: 430px;
+    max-height: 430px;
+    overflow: auto;
+}
