@@ -13,12 +13,12 @@
 <body>
     <div class="stopwatch-wrapper">
         <div id="stopwatch">
-            <div id="timer"><span id="time-string">00:00:00.000</span></div>
+            <div id="timer"><span id="time-string">00:00:00.0</span></div>
             </div>
         <div id='stopwatch-btns'>
-            <button type="button" class="btn btn-danger" onclick="onStopClick()">Stop</button>
-            <button type="button" class="btn btn-secondary" onclick="onLapClick()">Lap/Reset</button>
-            <button type="button" class="btn btn-success" onclick="onStartClick()">Start</button>
+            <button id="stopBtn" type="button" class="btn btn-danger" onclick="onStopClick()" disabled>Stop</button>
+            <button id="lapBtn" type="button" class="btn btn-secondary" onclick="onLapClick()" disabled>Lap/Reset</button>
+            <button id="startBtn" type="button" class="btn btn-success" onclick="onStartClick()">Start</button>
         </div>
         <div id="lap-history-header"><label>LAP COUNT - LAP TIME - ELAPSED</label></div>
         <div id="lap-history"></div>
