@@ -5,16 +5,11 @@ class Timestamp {
     }
 }
 
-// let hours = 0;
-// let minutes = 0;
-// let seconds = 0;
 let ms = 0;
 let timer;
 let isRunning = false;
 let laps = [];
 let tsArr = [];
-// let elapsed = 0;
-// let startBtn = document.getElementById('startBtn');
 
 function onStartClick() {
     
@@ -34,6 +29,7 @@ function onStopClick() {
         clearInterval(timer);
         isRunning = false;
         document.getElementById('startBtn').removeAttribute('disabled');
+        document.getElementById('stopBtn').setAttribute('disabled', 'true');
         laps.push(ms);
         // updateLapsDisplay();
         updateLapsDisplayMoreAccurately();
