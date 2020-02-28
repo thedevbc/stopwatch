@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: black;
-    overflow:hidden;
+    /* overflow:hidden; */
     /* font-size: 32px; */
 }
 
@@ -14,7 +14,7 @@ body {
     justify-content: space-around;
     /* align-items: center; */
     height: 100%;
-
+    min-height: 13em;
 }
 
 #timer {
@@ -25,15 +25,15 @@ body {
 }
 
 #stopwatch {
-    /* min-height: 5em; */
+    min-height: 2em;
     color: #ffffff;
     font-family: 'Space Mono';
     /* opacity: .85; */
-    flex: 1 1 auto;
+    flex: 1 0 auto;
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-end;
-    overflow: hidden;
+    /* overflow: hidden; */
     font-size: 5em;
     /* margin-top: 2em; */
     /* text-align: center; */
@@ -42,11 +42,11 @@ body {
 
 
 #stopwatch-btns {
-    flex: 1 1 auto;
+    flex: 0 0 auto;
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
 }
 
@@ -62,21 +62,28 @@ body {
 #lap-history, #lap-history-header {
     color: #ffffff;
     /* font-family: 'Space Mono'; */
-    flex: 0 1 auto;
+    font-size: 24px;
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
 }
 
 #lap-history-header {
-    justify-content: flex-end;
+    justify-content: flex-start;
+    flex: 0 0 auto;
 
 }
 
 #lap-history {
-    min-height: 430px;
-    max-height: 430px;
+    height: 40%;
+    /* max-height: 50vh; */
     overflow: auto;
     justify-content: flex-start;
+    flex: 0 1 auto;
+}
 
+#lap-history p {
+    
+    line-height: 1.25;
+    margin-bottom: 0;
 }
