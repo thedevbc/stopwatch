@@ -5,59 +5,56 @@ class Timestamp {
     }
 }
 
-let ms = 0;
+let tenths = 0;
 let timer;
 let isRunning = false;
-let laps = [];
 let tsArr = [];
 
+let s = 0;
+let m = 0;
+let h = 0;
+
 function onStartClick() {
-    
     tsArr.push(new Timestamp(Date.now(), 'START'));
     timer = setInterval(increment, 100);
     isRunning = true;
     document.getElementById('startBtn').setAttribute('disabled', 'true');
     document.getElementById('stopBtn').removeAttribute('disabled');
     document.getElementById('lapBtn').removeAttribute('disabled');
-    console.log(tsArr);
 }
 
 function onStopClick() {
     tsArr.push(new Timestamp(Date.now(), 'STOP'));
-    console.log(tsArr);
     if (timer) {
         clearInterval(timer);
         isRunning = false;
         document.getElementById('startBtn').removeAttribute('disabled');
         document.getElementById('stopBtn').setAttribute('disabled', 'true');
-        laps.push(ms);
-        // updateLapsDisplay();
-        updateLapsDisplayMoreAccurately();
+        updateLapsDisplay();
     }
 }
 
 function onLapClick() {
     if (!isRunning) {
-        ms = 0;
-        laps = [];
+        tenths = 0;
+        s = 0;
+        m = 0;
+        h = 0;
         tsArr = [];
         elapsed = 0;
         document.getElementById('startBtn').removeAttribute('disabled');
         document.getElementById('lapBtn').setAttribute('disabled', 'true');
         document.getElementById('stopBtn').setAttribute('disabled', 'true');
+        updateTimerDisplay();
     } else {
         tsArr.push(new Timestamp(Date.now(), 'LAP'));
-        console.log(tsArr);
-        laps.push(ms);
 
     }
-    // updateLapsDisplay();
-    updateLapsDisplayMoreAccurately();
-    updateTimerDisplay();
+    updateLapsDisplay();
 }
 
 function increment() {
-    ms++;
+    tenths++;
     updateTimerDisplay();
 }
 
@@ -69,8 +66,8 @@ function numToString(num) {
     }
 }
 
-function msToString(ms) {
-    let msString = ms.toString();
+function msToString(milis) {
+    let msString = milis.toString();
     if (msString.length < 3) {
         msString = "0" + msString;
         return msToString(msString);
@@ -81,33 +78,32 @@ function msToString(ms) {
 
 function updateTimerDisplay() {
     let timeEl = document.getElementById('time-string');
-    timeEl.innerText = convertMsToTimeString(ms);
+    timeEl.innerText = convertToTimeString(/*tenths*/);
 }
 
-function updateLapsDisplay() {
-    let lapsEl = document.getElementById('lap-history');
-    lapsEl.innerHTML = "";
-    for (let i = 0; i < laps.length; i++) {
-        let thisLap = laps[i];
-        let msDiff = thisLap;
-        if (i > 0) {
-            let previousLap = laps[i - 1];
-            msDiff = thisLap - previousLap;
-        }
+function convertToTimeString(/*tenthsToBeConverted*/) {
+    // s = Math.floor(tenthsToBeConverted / 10);
+    // let temptenths = tenthsToBeConverted % 10;
+    // m = Math.floor(s / 60);
+    // s = s % 60;
+    // h = Math.floor(m / 60);
+    // m = m % 60;
 
-        lapsEl.innerHTML += `<label>Lap ${numToString(i + 1)} - ${convertMsToTimeString(msDiff)} - ${convertMsToTimeString(thisLap)}</label>`;
+    // return `${numToString(h)}:${numToString(m)}:${numToString(s)}.${temptenths}`;
+    // let temptenths = tenths % 10;
+    if (tenths === 10) {
+        tenths = 0;
+        s++;
     }
-}
-
-function convertMsToTimeString(msToBeConverted) {
-    let s = Math.floor(msToBeConverted / 10);
-    let milis = msToBeConverted % 10;
-    let m = Math.floor(s / 60);
-    s = s % 60;
-    h = Math.floor(m / 60);
-    m = m % 60;
-
-    return `${numToString(h)}:${numToString(m)}:${numToString(s)}.${milis}`;
+    if (s === 60) {
+        s = 0;
+        m++;
+    }
+    if (m === 60){
+        m = 0;
+        h++;
+    }
+    return `${numToString(h)}:${numToString(m)}:${numToString(s)}.${tenths}`;
 }
 
 function convertMsToObject(msToConvert) {
@@ -121,7 +117,7 @@ function convertMsToObject(msToConvert) {
     return { hours: h, minutes: m, seconds: s, miliseconds: milis };
 }
 
-function updateLapsDisplayMoreAccurately() {
+function updateLapsDisplay() {
     let lapsEl = document.getElementById('lap-history');
     lapsEl.innerHTML = "";
     let elapsed = 0;
@@ -150,7 +146,7 @@ function updateLapsDisplayMoreAccurately() {
         let elapObj = convertMsToObject(elapsed);
         console.log(elapObj);
         if (i > 0 && currentAct !== 'START') {
-            lapsEl.innerHTML += `<label>Lap ${numToString(lapCount)} - ${numToString(diffObj.hours)}:${numToString(diffObj.minutes)}:${numToString(diffObj.seconds)}.${msToString(diffObj.miliseconds)} - ${numToString(elapObj.hours)}:${numToString(elapObj.minutes)}:${numToString(elapObj.seconds)}.${msToString(elapObj.miliseconds)}</label>`;
+            lapsEl.innerHTML += `<p>Lap ${numToString(lapCount)} - ${numToString(diffObj.hours)}:${numToString(diffObj.minutes)}:${numToString(diffObj.seconds)}.${msToString(diffObj.miliseconds)} - ${numToString(elapObj.hours)}:${numToString(elapObj.minutes)}:${numToString(elapObj.seconds)}.${msToString(elapObj.miliseconds)}</p>`;
         }
         
     }
