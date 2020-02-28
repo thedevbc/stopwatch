@@ -5,7 +5,13 @@ class Timestamp {
     }
 }
 
-let tenths = 0;
+const startBtn = document.getElementById('startBtn');
+const stopBtn = document.getElementById('stopBtn');
+const lapBtn = document.getElementById('lapBtn');
+const timeEl = document.getElementById('time-string');
+const lapsEl = document.getElementById('lap-history');
+
+let tenths = 1;
 let timer;
 let isRunning = false;
 let tsArr = [];
@@ -15,23 +21,24 @@ let m = 0;
 let h = 0;
 
 function onStartClick() {
-    tsArr.push(new Timestamp(Date.now(), 'START'));
     timer = setInterval(increment, 100);
+    tsArr.push(new Timestamp(Date.now(), 'START'));
     isRunning = true;
-    document.getElementById('startBtn').setAttribute('disabled', 'true');
-    document.getElementById('stopBtn').removeAttribute('disabled');
-    document.getElementById('lapBtn').removeAttribute('disabled');
+    startBtn.setAttribute('disabled', 'true');
+    stopBtn.removeAttribute('disabled');
+    lapBtn.removeAttribute('disabled');
 }
 
 function onStopClick() {
+    clearInterval(timer);
     tsArr.push(new Timestamp(Date.now(), 'STOP'));
-    if (timer) {
-        clearInterval(timer);
+    // if (timer) {
+        // clearInterval(timer);
         isRunning = false;
-        document.getElementById('startBtn').removeAttribute('disabled');
-        document.getElementById('stopBtn').setAttribute('disabled', 'true');
+        startBtn.removeAttribute('disabled');
+        stopBtn.setAttribute('disabled', 'true');
         updateLapsDisplay();
-    }
+    // }
 }
 
 function onLapClick() {
@@ -42,10 +49,11 @@ function onLapClick() {
         h = 0;
         tsArr = [];
         elapsed = 0;
-        document.getElementById('startBtn').removeAttribute('disabled');
-        document.getElementById('lapBtn').setAttribute('disabled', 'true');
-        document.getElementById('stopBtn').setAttribute('disabled', 'true');
+        startBtn.removeAttribute('disabled');
+        lapBtn.setAttribute('disabled', 'true');
+        stopBtn.setAttribute('disabled', 'true');
         updateTimerDisplay();
+        tenths = 1;
     } else {
         tsArr.push(new Timestamp(Date.now(), 'LAP'));
 
@@ -77,7 +85,7 @@ function msToString(milis) {
 }
 
 function updateTimerDisplay() {
-    let timeEl = document.getElementById('time-string');
+    // let timeEl = document.getElementById('time-string');
     timeEl.innerText = convertToTimeString(/*tenths*/);
 }
 
@@ -103,7 +111,8 @@ function convertToTimeString(/*tenthsToBeConverted*/) {
         m = 0;
         h++;
     }
-    return `${numToString(h)}:${numToString(m)}:${numToString(s)}.${tenths}`;
+    // return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}.${tenths}`;
+    return h.toString().padStart(2,'0') + ':' + m.toString().padStart(2, '0') + ':' + s.toString().padStart(2, '0') + '.' + tenths;
 }
 
 function convertMsToObject(msToConvert) {
@@ -118,7 +127,7 @@ function convertMsToObject(msToConvert) {
 }
 
 function updateLapsDisplay() {
-    let lapsEl = document.getElementById('lap-history');
+    // let lapsEl = document.getElementById('lap-history');
     lapsEl.innerHTML = "";
     let elapsed = 0;
     let lapCount = 0;
@@ -141,12 +150,13 @@ function updateLapsDisplay() {
             lapCount++;
         }
 
-        console.log(elapsed);
+        // console.log(elapsed);
         let diffObj = convertMsToObject(diff);
         let elapObj = convertMsToObject(elapsed);
-        console.log(elapObj);
+        // console.log(elapObj);
         if (i > 0 && currentAct !== 'START') {
-            lapsEl.innerHTML += `<p>Lap ${numToString(lapCount)} - ${numToString(diffObj.hours)}:${numToString(diffObj.minutes)}:${numToString(diffObj.seconds)}.${msToString(diffObj.miliseconds)} - ${numToString(elapObj.hours)}:${numToString(elapObj.minutes)}:${numToString(elapObj.seconds)}.${msToString(elapObj.miliseconds)}</p>`;
+            // lapsEl.innerHTML += `<p>Lap ${numToString(lapCount)} - ${numToString(diffObj.hours)}:${numToString(diffObj.minutes)}:${numToString(diffObj.seconds)}.${msToString(diffObj.miliseconds)} - ${numToString(elapObj.hours)}:${numToString(elapObj.minutes)}:${numToString(elapObj.seconds)}.${msToString(elapObj.miliseconds)}</p>`;
+            lapsEl.innerHTML += `<p>Lap ${lapCount.toString().padStart(2,'0')} - ${numToString(diffObj.hours)}:${numToString(diffObj.minutes)}:${numToString(diffObj.seconds)}.${msToString(diffObj.miliseconds)} - ${numToString(elapObj.hours)}:${numToString(elapObj.minutes)}:${numToString(elapObj.seconds)}.${msToString(elapObj.miliseconds)}</p>`;
         }
         
     }
