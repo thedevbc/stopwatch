@@ -29,24 +29,24 @@ body {
     color: #ffffff;
     font-family: 'Space Mono';
     /* opacity: .85; */
-    flex: 0 1 auto;
+    flex: 1 1 auto;
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-end;
     overflow: hidden;
-    font-size: 6em;
-    margin-top: 2em;
+    font-size: 5em;
+    /* margin-top: 2em; */
     /* text-align: center; */
 }
 
 
 
 #stopwatch-btns {
-    flex: 0 1 auto;
+    flex: 1 1 auto;
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     width: 100%;
 }
 
@@ -66,11 +66,17 @@ body {
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
-    justify-content: flex-start;
+}
+
+#lap-history-header {
+    justify-content: flex-end;
+
 }
 
 #lap-history {
     min-height: 430px;
     max-height: 430px;
     overflow: auto;
+    justify-content: flex-start;
+
 }
