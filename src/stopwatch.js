@@ -15,6 +15,7 @@ let tenths = 1;
 let timer;
 let isRunning = false;
 let tsArr = [];
+let elapsedTime = 0;
 
 let s = 0;
 let m = 0;
@@ -30,8 +31,8 @@ function onStartClick() {
 }
 
 function onStopClick() {
-    clearInterval(timer);
     tsArr.push(new Timestamp(Date.now(), 'STOP'));
+    clearInterval(timer);
     // if (timer) {
         // clearInterval(timer);
         isRunning = false;
@@ -48,7 +49,7 @@ function onLapClick() {
         m = 0;
         h = 0;
         tsArr = [];
-        elapsed = 0;
+        elapsedTime = 0;
         startBtn.removeAttribute('disabled');
         lapBtn.setAttribute('disabled', 'true');
         stopBtn.setAttribute('disabled', 'true');
@@ -62,8 +63,8 @@ function onLapClick() {
 }
 
 function increment() {
-    tenths++;
     updateTimerDisplay();
+    tenths++;    
 }
 
 function numToString(num) {
@@ -86,7 +87,8 @@ function msToString(milis) {
 
 function updateTimerDisplay() {
     // let timeEl = document.getElementById('time-string');
-    timeEl.innerText = convertToTimeString(/*tenths*/);
+    // timeEl.innerText = convertToTimeString(/*tenths*/);
+    timeEl.textContent = convertToTimeString();
 }
 
 function convertToTimeString(/*tenthsToBeConverted*/) {
@@ -161,3 +163,27 @@ function updateLapsDisplay() {
         
     }
 }
+
+// function updateLapsDisplay2() {
+//     let newLapText = "";
+//     let newLapPara = document.createElement('p');
+//     let lastTSIndex = tsArr.length - 1;
+//     let prevTSIndex = tsArr.length - 2 < 0 ? 0 : tsArr.length - 2;
+//     let lastTS = tsArr[lastTSIndex];
+//     let prevTS = tsArr[prevTSIndex];
+    
+//     diff = lastTS.time - prevTS.time;
+//     if (prevTS.action !== 'STOP') {
+//         elapsedTime += diff;
+//     }
+//     let lapCount = tsArr.filter(ts => ts.action !== 'START').length;
+//     let diffObj = convertMsToObject(diff);
+//     let elapObj = convertMsToObject(elapsedTime);
+//     if (lastTS.action !== 'START') {
+//         newLapText = `Lap ${lapCount.toString().padStart(2,'0')} - ${diffObj.hours.toString().padStart(2, '0')}:${diffObj.minutes.toString().padStart(2, '0')}:${diffObj.seconds.toString().padStart(2, '0')}.${diffObj.miliseconds.toString().padStart(3, '0')} - ${elapObj.hours.toString().padStart(2, '0')}:${elapObj.minutes.toString().padStart(2, '0')}:${elapObj.seconds.toString().padStart(2, '0')}.${msToString(elapObj.miliseconds)}`;
+//         newLapPara.textContent = newLapText;
+//         lapsEl.appendChild(newLapPara);
+//     }
+
+    
+// }
