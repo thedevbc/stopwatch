@@ -1,5 +1,5 @@
 class Timestamp {
-    constructor(time, action){
+    constructor(time, action) {
         this.time = time;
         this.action = action;
     }
@@ -16,6 +16,7 @@ let timer;
 let isRunning = false;
 let tsArr = [];
 let elapsedTime = 0;
+let blurTS;
 
 let s = 0;
 let m = 0;
@@ -34,11 +35,11 @@ function onStopClick() {
     tsArr.push(new Timestamp(Date.now(), 'STOP'));
     clearInterval(timer);
     // if (timer) {
-        // clearInterval(timer);
-        isRunning = false;
-        startBtn.removeAttribute('disabled');
-        stopBtn.setAttribute('disabled', 'true');
-        updateLapsDisplay();
+    // clearInterval(timer);
+    isRunning = false;
+    startBtn.removeAttribute('disabled');
+    stopBtn.setAttribute('disabled', 'true');
+    updateLapsDisplay();
     // }
 }
 
@@ -64,7 +65,7 @@ function onLapClick() {
 
 function increment() {
     updateTimerDisplay();
-    tenths++;    
+    tenths++;
 }
 
 function numToString(num) {
@@ -109,12 +110,12 @@ function convertToTimeString(/*tenthsToBeConverted*/) {
         s = 0;
         m++;
     }
-    if (m === 60){
+    if (m === 60) {
         m = 0;
         h++;
     }
     // return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}.${tenths}`;
-    return h.toString().padStart(2,'0') + ':' + m.toString().padStart(2, '0') + ':' + s.toString().padStart(2, '0') + '.' + tenths;
+    return h.toString().padStart(2, '0') + ':' + m.toString().padStart(2, '0') + ':' + s.toString().padStart(2, '0') + '.' + tenths;
 }
 
 function convertMsToObject(msToConvert) {
@@ -148,7 +149,7 @@ function updateLapsDisplay() {
             elapsed += diff;
         }
 
-        if (currentAct !== 'START'){
+        if (currentAct !== 'START') {
             lapCount++;
         }
 
@@ -158,9 +159,9 @@ function updateLapsDisplay() {
         // console.log(elapObj);
         if (i > 0 && currentAct !== 'START') {
             // lapsEl.innerHTML += `<p>Lap ${numToString(lapCount)} - ${numToString(diffObj.hours)}:${numToString(diffObj.minutes)}:${numToString(diffObj.seconds)}.${msToString(diffObj.miliseconds)} - ${numToString(elapObj.hours)}:${numToString(elapObj.minutes)}:${numToString(elapObj.seconds)}.${msToString(elapObj.miliseconds)}</p>`;
-            lapsEl.innerHTML += `<p>Lap ${lapCount.toString().padStart(2,'0')} - ${numToString(diffObj.hours)}:${numToString(diffObj.minutes)}:${numToString(diffObj.seconds)}.${msToString(diffObj.miliseconds)} - ${numToString(elapObj.hours)}:${numToString(elapObj.minutes)}:${numToString(elapObj.seconds)}.${msToString(elapObj.miliseconds)}</p>`;
+            lapsEl.innerHTML += `<p>Lap ${lapCount.toString().padStart(2, '0')} - ${numToString(diffObj.hours)}:${numToString(diffObj.minutes)}:${numToString(diffObj.seconds)}.${msToString(diffObj.miliseconds)} - ${numToString(elapObj.hours)}:${numToString(elapObj.minutes)}:${numToString(elapObj.seconds)}.${msToString(elapObj.miliseconds)}</p>`;
         }
-        
+
     }
 }
 
@@ -171,7 +172,7 @@ function updateLapsDisplay() {
 //     let prevTSIndex = tsArr.length - 2 < 0 ? 0 : tsArr.length - 2;
 //     let lastTS = tsArr[lastTSIndex];
 //     let prevTS = tsArr[prevTSIndex];
-    
+
 //     diff = lastTS.time - prevTS.time;
 //     if (prevTS.action !== 'STOP') {
 //         elapsedTime += diff;
@@ -185,5 +186,40 @@ function updateLapsDisplay() {
 //         lapsEl.appendChild(newLapPara);
 //     }
 
-    
+
 // }
+
+window.onblur = (event) => {
+    if (timer && isRunning) {
+        blurTS = new Timestamp(Date.now(), 'BLUR');
+        clearInterval(timer);
+    }
+    // console.log(event);
+}
+
+window.onfocus = (event) => {
+    let nowms = Date.now();
+    // console.log(event);
+    // console.log(blurTS);
+    if (blurTS) {
+        // determine difference between now and blurTS
+        let difftime = nowms - blurTS.time;
+        // console.log(difftime);
+        // add difference to existing amount of time that passed
+        // first, convert displayed time-passed to milliseconds
+        let currentMS = (tenths * 100) + (s * 1000) + (m * 60000) + (h * 3600000);
+        // console.log(currentMS);
+        let newMS = difftime + currentMS;
+        // console.log(newMS);
+        // then update the displayed times
+        let currentDisplayTimeObj = convertMsToObject(newMS);
+        // console.log(currentDisplayTimeObj);
+        h = currentDisplayTimeObj.hours;
+        m = currentDisplayTimeObj.minutes;
+        s = currentDisplayTimeObj.seconds;
+        tenths = Math.floor(currentDisplayTimeObj.miliseconds / 100) + 1;//add one because interval executes after 100ms
+        // restart interval, which will update display
+        timer = setInterval(increment, 100);
+    }
+    blurTS = null;
+}
