@@ -87,8 +87,6 @@ function msToString(milis) {
 }
 
 function updateTimerDisplay() {
-    // let timeEl = document.getElementById('time-string');
-    // timeEl.innerText = convertToTimeString(/*tenths*/);
     timeEl.textContent = convertToTimeString();
 }
 
@@ -130,7 +128,6 @@ function convertMsToObject(msToConvert) {
 }
 
 function updateLapsDisplay() {
-    // let lapsEl = document.getElementById('lap-history');
     lapsEl.innerHTML = "";
     let elapsed = 0;
     let lapCount = 0;
@@ -153,10 +150,8 @@ function updateLapsDisplay() {
             lapCount++;
         }
 
-        // console.log(elapsed);
         let diffObj = convertMsToObject(diff);
         let elapObj = convertMsToObject(elapsed);
-        // console.log(elapObj);
         if (i > 0 && currentAct !== 'START') {
             // lapsEl.innerHTML += `<p>Lap ${numToString(lapCount)} - ${numToString(diffObj.hours)}:${numToString(diffObj.minutes)}:${numToString(diffObj.seconds)}.${msToString(diffObj.miliseconds)} - ${numToString(elapObj.hours)}:${numToString(elapObj.minutes)}:${numToString(elapObj.seconds)}.${msToString(elapObj.miliseconds)}</p>`;
             lapsEl.innerHTML += `<p>Lap ${lapCount.toString().padStart(2, '0')} - ${numToString(diffObj.hours)}:${numToString(diffObj.minutes)}:${numToString(diffObj.seconds)}.${msToString(diffObj.miliseconds)} - ${numToString(elapObj.hours)}:${numToString(elapObj.minutes)}:${numToString(elapObj.seconds)}.${msToString(elapObj.miliseconds)}</p>`;
@@ -190,30 +185,27 @@ function updateLapsDisplay() {
 // }
 
 window.onblur = (event) => {
+    blurTS = Date.now();
+
     if (timer && isRunning) {
-        blurTS = new Timestamp(Date.now(), 'BLUR');
         clearInterval(timer);
     }
-    // console.log(event);
+    else {
+        blurTS = null;
+    }
 }
 
 window.onfocus = (event) => {
     let nowms = Date.now();
-    // console.log(event);
-    // console.log(blurTS);
     if (blurTS) {
         // determine difference between now and blurTS
-        let difftime = nowms - blurTS.time;
-        // console.log(difftime);
+        let difftime = nowms - blurTS;
         // add difference to existing amount of time that passed
         // first, convert displayed time-passed to milliseconds
         let currentMS = (tenths * 100) + (s * 1000) + (m * 60000) + (h * 3600000);
-        // console.log(currentMS);
         let newMS = difftime + currentMS;
-        // console.log(newMS);
         // then update the displayed times
         let currentDisplayTimeObj = convertMsToObject(newMS);
-        // console.log(currentDisplayTimeObj);
         h = currentDisplayTimeObj.hours;
         m = currentDisplayTimeObj.minutes;
         s = currentDisplayTimeObj.seconds;

@@ -1,18 +1,17 @@
+@import url("./assets/font/stylesheet.css");
+
 body {
     width: 100vw;
     height: 100vh;
     margin: 0;
     padding: 0;
     background-color: black;
-    /* overflow:hidden; */
-    /* font-size: 32px; */
 }
 
 .stopwatch-wrapper {
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-around;
-    /* align-items: center; */
     height: 100%;
     min-height: 13em;
 }
@@ -27,19 +26,13 @@ body {
 #stopwatch {
     min-height: 2em;
     color: #ffffff;
-    font-family: 'Space Mono';
-    /* opacity: .85; */
+    font-family: 'space_monoregular';
     flex: 1 0 auto;
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-end;
-    /* overflow: hidden; */
     font-size: 5em;
-    /* margin-top: 2em; */
-    /* text-align: center; */
 }
-
-
 
 #stopwatch-btns {
     flex: 0 0 auto;
@@ -61,7 +54,6 @@ body {
 
 #lap-history, #lap-history-header {
     color: #ffffff;
-    /* font-family: 'Space Mono'; */
     font-size: 24px;
     display: flex;
     flex-flow: column nowrap;
@@ -76,7 +68,6 @@ body {
 
 #lap-history {
     height: 40%;
-    /* max-height: 50vh; */
     overflow: auto;
     justify-content: flex-start;
     flex: 0 1 auto;
@@ -86,4 +77,76 @@ body {
     
     line-height: 1.25;
     margin-bottom: 0;
+}
+
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.btn-lg {
+    padding: .5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: .3rem;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn:disabled {
+    opacity: .65;
+    cursor: not-allowed;
+}
+
+button:not(:disabled) {
+    cursor: pointer;
+}
+
+.btn-danger.disabled, .btn-danger:disabled {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-secondary.disabled, .btn-secondary:disabled {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-success.disabled, .btn-success:disabled {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
 }
